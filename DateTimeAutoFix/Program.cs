@@ -10,7 +10,7 @@ namespace DateTimeAutoFix
         static void Main(string[] args)
         {
             string strFileNameFormat = "yyyyMMdd_HHmmss";
-            string strDirectory = "D:\\test\\";
+            string strDirectory = "C:\\Users\\Aarsh\\OneDrive\\Pictures\\Camera Roll";
             string fileName = null;
 
             string[] files = Directory.GetFiles(strDirectory);
@@ -25,21 +25,33 @@ namespace DateTimeAutoFix
                 if(!success)
                 {
                     // Case 2: A valid file name ends with suffix. Workaround: remove suffix
+                    if(fileName.Length < strFileNameFormat.Length)
+                    {
+                        continue;
+                    }
+
                     fileName = fileName.Substring(0, strFileNameFormat.Length);
                     success = DateTime.TryParseExact(fileName, strFileNameFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out fileModificationDateTime);
                 }
 
                 if (success)
                 {
+                    try
+                    {
+                        File.SetCreationTime(files[i], fileModificationDateTime);
+                        File.SetLastWriteTime(files[i], fileModificationDateTime);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("{0} - Error \n{1}", fileName, ex);
+                    }
+
                     Console.WriteLine("{0} \t\t\t {1}", fileName, fileModificationDateTime);
                 }
                 else
                 {
                     Console.WriteLine("{0} - File format invalid", fileName);
                 }
-
-                File.SetCreationTime(files[i], fileModificationDateTime);
-                File.SetLastWriteTime(files[i], fileModificationDateTime);
             }
             Console.ReadKey();
         }
