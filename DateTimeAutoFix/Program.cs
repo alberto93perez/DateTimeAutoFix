@@ -10,7 +10,7 @@ namespace DateTimeAutoFix
         static void Main(string[] args)
         {
             string strFileNameFormat = "yyyyMMdd_HHmmss";
-            string strDirectory = "C:\\Users\\Aarsh\\OneDrive\\Pictures\\Camera Roll";
+            string strDirectory = "C:\Users\betto\OneDrive\Imágenes\Álbum de cámara\Nueva carpeta";
             string fileName = null;
 
             string[] files = Directory.GetFiles(strDirectory);
